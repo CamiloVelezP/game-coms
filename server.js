@@ -51,26 +51,7 @@ io.on('connection', function(socket){
         }
         bullet_array.push(new_bullet);
     });
-    socket.on('bullets-update',function(server_bullet_array){
-        // If there's not enough bullets on the client, create them
-        for(var i=0;i<server_bullet_array.length;i++){
-            if(bullet_array[i] == undefined){
-                bullet_array[i] = game.add.sprite(server_bullet_array[i].x,server_bullet_array[i].y,'bullet');
-            } else {
-                //Otherwise, just update it!
-                bullet_array[i].x = server_bullet_array[i].x;
-                bullet_array[i].y = server_bullet_array[i].y;
-            }
-        }
-        // Otherwise if there's too many, delete the extra
-        for(var i=server_bullet_array.length;i<bullet_array.length;i++){
-            bullet_array[i].destroy();
-            bullet_array.splice(i,1);
-            i--;
-        }
-    });
 })
-
 
 // Update the bullets 60 times per frame and send updates
 function ServerGameLoop(){
@@ -103,7 +84,4 @@ function ServerGameLoop(){
     io.emit("bullets-update",bullet_array);
 }
 
-setInterval(ServerGameLoop, 16)
-
-
-
+setInterval(ServerGameLoop, 16);
