@@ -33,7 +33,7 @@
     var water_tiles = [];
     var bullet_array = [];
 
-    socket = io("https://camilovelezp.github.io/game-coms"); //Declare it in this scope, initialize in the `create` function
+    socket = io.connect("https://camilovelezp.github.io/game-coms"); //Declare it in this scope, initialize in the `create` function
     var other_players = {};
 
     var player = {
