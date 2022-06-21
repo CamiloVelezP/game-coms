@@ -5,7 +5,7 @@
     <!-- Load the Phaser game library -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/phaser/2.4.2/phaser.min.js"></script>
     <!-- Load the Socket.io networking library -->
-     <script src="https://camilovelezp.github.io/game-coms/socket.io/socket.io.js"></script>
+    <script src="https://camilovelezp.github.io/game-coms/socket.io/socket.io.js"></script>
     <!-- Some simple styles and fonts -->
     <style type="text/css">
         body,html { /* Remove margins */
@@ -33,7 +33,7 @@
     var water_tiles = [];
     var bullet_array = [];
 
-    socket = io.connect("https://camilovelezp.github.io/game-coms"); //Declare it in this scope, initialize in the `create` function
+    var socket; //Declare it in this scope, initialize in the `create` function
     var other_players = {};
 
     var player = {
@@ -147,7 +147,7 @@
         game.camera.x = player.sprite.x - WINDOW_WIDTH/2;
         game.camera.y = player.sprite.y - WINDOW_HEIGHT/2;
 
-         // This triggers the 'connection' event on the server
+        socket = io.connect("https://camilovelezp.github.io/game-coms"); // This triggers the 'connection' event on the server
         socket.emit('new-player',{x:player.sprite.x,y:player.sprite.y,angle:player.sprite.rotation,type:1})
         // Listen for other players connecting
         socket.on('update-players',function(players_data){
