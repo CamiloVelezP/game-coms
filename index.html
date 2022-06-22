@@ -5,8 +5,7 @@
     <!-- Load the Phaser game library -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/phaser/2.4.2/phaser.min.js"></script>
     <!-- Load the Socket.io networking library -->
-    <script src="/socket.io/socket.io.js"></script>
-
+     <script src="https://camilovelezp.github.io/game-coms/socket.io/socket.io.js"></script>
     <!-- Some simple styles and fonts -->
     <style type="text/css">
         body,html { /* Remove margins */
@@ -22,7 +21,7 @@
 </head>
 <body>
 <script type="text/javascript">
-    var ASSET_URL = "assets/"
+    var ASSET_URL = "https://cdn.glitch.com/d371c629-b475-4d7b-88bc-b2558ae406a4%2F"; //Obtained from the assets folder
     //We first initialize the phaser game object
     var WINDOW_WIDTH = 750;
     var WINDOW_HEIGHT = 500;
@@ -34,7 +33,7 @@
     var water_tiles = [];
     var bullet_array = [];
 
-    var socket; //Declare it in this scope, initialize in the `create` function
+    socket = io.connect("https://camilovelezp.github.io/game-coms"); //Declare it in this scope, initialize in the `create` function
     var other_players = {};
 
     var player = {
@@ -138,7 +137,7 @@
         game.stage.disableVisibilityChange = true;
 
         // Create player
-        var player_ship_type = String(1);
+        var player_ship_type = String(Math.floor(Math.random() * (7 - 1)) + 1);
         player.sprite = game.add.sprite(Math.random() * WORLD_SIZE.w/2 + WORLD_SIZE.w/2,Math.random() * WORLD_SIZE.h/2 + WORLD_SIZE.h/2,'ship'+player_ship_type+'_1');
         player.sprite.anchor.setTo(0.5,0.5);
 
@@ -148,7 +147,7 @@
         game.camera.x = player.sprite.x - WINDOW_WIDTH/2;
         game.camera.y = player.sprite.y - WINDOW_HEIGHT/2;
 
-        socket = io(); // This triggers the 'connection' event on the server
+         // This triggers the 'connection' event on the server
         socket.emit('new-player',{x:player.sprite.x,y:player.sprite.y,angle:player.sprite.rotation,type:1})
         // Listen for other players connecting
         socket.on('update-players',function(players_data){
@@ -158,7 +157,7 @@
                 // If the player hasn't been created yet
                 if(other_players[id] == undefined && id != socket.id){ // Make sure you don't create yourself
                     var data = players_data[id];
-                    var p = CreateShip(data.type,data.x,data.y,data.angle);
+                    var p = CreateShip(String(Math.floor(Math.random() * (7 - 1)) + 1),data.x,data.y,data.angle);
                     other_players[id] = p;
                     console.log("Created new player at (" + data.x + ", " + data.y + ")");
                 }
