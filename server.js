@@ -8,6 +8,9 @@ app.get("/", function (request, response) {
     response.sendFile(__dirname + '/index.html');
 });
 
+// Serve the assets directory
+app.use('/assets',express.static('assets'))
+
 // Listen on port 5000
 app.set('port', (process.env.PORT || 5000));
 http.listen(app.get('port'), function(){
